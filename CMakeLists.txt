@@ -1,0 +1,31 @@
+cmake_minimum_required(VERSION 3.26)
+
+project(metal-cpp-extensions VERSION 1.0.0)
+
+include(GNUInstallDirs)
+
+# if not debug, install header
+if(NOT CMAKE_BUILD_TYPE MATCHES Debug)
+    install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+endif()
+
+include(CMakePackageConfigHelpers)
+
+write_basic_package_version_file(
+    "${CMAKE_CURRENT_BINARY_DIR}/metal-cpp-extensions-config-version.cmake"
+    VERSION "${PROJECT_VERSION}"
+    COMPATIBILITY SameMajorVersion
+)
+
+configure_package_config_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/metal-cpp-extensions-config.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/metal-cpp-extensions-config.cmake"
+    INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/metal-cpp-extensions"
+)
+
+install(
+    FILES
+        ${CMAKE_CURRENT_BINARY_DIR}/metal-cpp-extensions-config.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/metal-cpp-extensions-config-version.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/metal-cpp-extensions
+)

@@ -1,0 +1,20 @@
+@PACKAGE_INIT@
+
+set(metal-cpp-extensions_INCLUDE_DIRS "@CMAKE_INSTALL_FULL_INCLUDEDIR@")
+set(metal-cpp-extensions_VERSION "@PROJECT_VERSION@")
+include(CMakeFindDependencyMacro)
+
+add_library(metal-cpp-extensions INTERFACE)
+target_include_directories(metal-cpp-extensions INTERFACE
+    $<BUILD_INTERFACE:${metal-cpp-extensions_INCLUDE_DIRS}>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
+
+target_link_libraries(metal-cpp-extensions INTERFACE
+    "-framework MetalKit"
+    "-framework AppKit"
+)
+
+if(NOT TARGET metal-cpp::metal-cpp-extensions)
+    add_library(metal-cpp::metal-cpp-extensions ALIAS metal-cpp-extensions)
+endif()
